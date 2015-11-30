@@ -9,8 +9,8 @@ public class Invoke implements Opcodes {
     ClassWriter cw = new ClassWriter(0);
     MethodVisitor mv;
 
-    cw.visit(V1_8, ACC_PUBLIC + ACC_ABSTRACT, className, null,
-        "java/lang/Object", null);
+    cw.visit(V1_8, ACC_PUBLIC + ACC_SUPER, className, null, "java/lang/Object",
+        null);
 
     // constructor
     mv = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);

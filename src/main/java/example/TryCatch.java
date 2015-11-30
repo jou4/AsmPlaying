@@ -10,19 +10,22 @@ public class TryCatch implements Opcodes {
     ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
     MethodVisitor mv;
 
-    cw.visit(V1_8, ACC_PUBLIC + ACC_ABSTRACT, className, null, "java/lang/Object", null);
+    cw.visit(V1_8, ACC_PUBLIC + ACC_SUPER, className, null, "java/lang/Object",
+        null);
 
     // constructor
     mv = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
     mv.visitCode();
     mv.visitVarInsn(ALOAD, 0);
-    mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+    mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V",
+        false);
     mv.visitInsn(RETURN);
     mv.visitMaxs(1, 1);
     mv.visitEnd();
 
     // main
-    mv = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "main", "([Ljava/lang/String;)V", null, null);
+    mv = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "main",
+        "([Ljava/lang/String;)V", null, null);
     mv.visitCode();
 
     Label from = new Label();
@@ -32,19 +35,23 @@ public class TryCatch implements Opcodes {
     Label finallyHandler = new Label();
 
     // try-catch block definitions
-    mv.visitTryCatchBlock(from, to, illegalArgExHandler, "java/lang/IllegalArgumentException");
+    mv.visitTryCatchBlock(from, to, illegalArgExHandler,
+        "java/lang/IllegalArgumentException");
     mv.visitTryCatchBlock(from, to, anyExHandler, "java/lang/Exception");
 
     // from
     mv.visitLabel(from);
-    mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+    mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out",
+        "Ljava/io/PrintStream;");
     mv.visitLdcInsn("try-catch example");
-    mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
+    mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println",
+        "(Ljava/lang/String;)V", false);
 
     // throw
     mv.visitTypeInsn(NEW, "java/lang/Exception");
     mv.visitInsn(DUP);
-    mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Exception", "<init>", "()V", false);
+    mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Exception", "<init>", "()V",
+        false);
     mv.visitInsn(ATHROW);
 
     // to
@@ -53,19 +60,23 @@ public class TryCatch implements Opcodes {
 
     // catch IllegalArgumentException
     mv.visitLabel(illegalArgExHandler);
-    mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/IllegalArgumentException", "printStackTrace", "()V", false);
+    mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/IllegalArgumentException",
+        "printStackTrace", "()V", false);
     mv.visitJumpInsn(GOTO, finallyHandler);
 
     // catch Exception
     mv.visitLabel(anyExHandler);
-    mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Exception", "printStackTrace", "()V", false);
+    mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Exception", "printStackTrace",
+        "()V", false);
     mv.visitJumpInsn(GOTO, finallyHandler);
 
     // finally
     mv.visitLabel(finallyHandler);
-    mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+    mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out",
+        "Ljava/io/PrintStream;");
     mv.visitLdcInsn("finally");
-    mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
+    mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println",
+        "(Ljava/lang/String;)V", false);
 
     mv.visitInsn(RETURN);
     mv.visitMaxs(2, 1);

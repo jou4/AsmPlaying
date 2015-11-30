@@ -9,7 +9,7 @@ public class Calculation implements Opcodes {
     ClassWriter cw = new ClassWriter(0);
     MethodVisitor mv;
 
-    cw.visit(V1_8, ACC_PUBLIC + ACC_ABSTRACT, className, null,
+    cw.visit(V1_8, ACC_PUBLIC + ACC_SUPER, className, null,
         "java/lang/Object", null);
 
     // constructor
